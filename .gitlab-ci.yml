@@ -1,0 +1,29 @@
+# Specify the docker image to use (only used if using docker runners)
+# See: http://doc.gitlab.com/ee/ci/docker/using_docker_images.html
+image: alpine:latest
+
+stages:
+  - build
+  - test
+
+
+# Define commands that run before each job's script
+build the cicd:
+  stage: build
+  script:
+    - mkdir build
+    - cd build
+    - touch test.txt
+    - echo "test123" >> test.txt
+  artifacts:
+    paths:
+      - build/
+
+test the cicd:
+  stage: test
+  script:
+    - test -f build/test.txt
+    - cd build
+    - grep "test123" test.txt
+
+
